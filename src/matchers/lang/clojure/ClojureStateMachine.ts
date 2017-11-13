@@ -1,5 +1,5 @@
 import { LangState, LangStateMachine } from "../LangStateMachine";
-import {DoubleString, Normal, SemiColonComment } from "./States";
+import { DoubleString, Normal, SemiColonComment } from "./States";
 
 /**
  * State machine for recognizing C family strings and comments.
@@ -25,18 +25,13 @@ export class ClojureStateMachine extends LangStateMachine {
                 break;
             case Normal:
                 switch (ch) {
-                    case '"' :
+                    case '"':
                         this.state = DoubleString;
                         break;
                     case ";":
                         this.state = SemiColonComment;
                         break;
                     default:
-                }
-                break;
-            case DoubleString:
-                if (ch === '"' && this.previousChar !== "\\") {
-                    this.state = Normal;
                 }
                 break;
         }

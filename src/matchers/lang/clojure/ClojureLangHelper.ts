@@ -1,4 +1,3 @@
-
 import { LangHelper } from "../LangHelper";
 import { ClojureStateMachine } from "./ClojureStateMachine";
 import { DoubleString, Normal, SemiColonComment } from "./States";
@@ -29,7 +28,7 @@ export class ClojureLangHelper implements LangHelper {
         return stripped;
     }
 
-   public stripWhitespace(source: string): string {
+    public stripWhitespace(source: string): string {
         let stripped = "";
         let chunk = "";
 

@@ -20,10 +20,16 @@ export class Sexp implements MatchingLogic {
     private pop: string;
 
     constructor(private stateMachineFactory: () => LangStateMachine,
-                private kind: "sexp", private inner?: MatchingLogic) {
+        private kind: "sexp" | "keyword" | "vector", private inner?: MatchingLogic) {
         switch (kind) {
             case "sexp":
                 [this.push, this.pop] = ["(", ")"];
+                break;
+            case "vector":
+                [this.push, this.pop] = ["[", "]"];
+                break;
+            case "keyword":
+                [this.push, this.pop] = [":", " "];
                 break;
         }
     }
@@ -82,11 +88,39 @@ export function sexp(stateMachineFactory: () => LangStateMachine = () => new Clo
 }
 
 export function sexpContaining(m: Concat,
-                               stateMachineFactory: () => LangStateMachine = () => new ClojureStateMachine()) {
+    stateMachineFactory: () => LangStateMachine = () => new ClojureStateMachine()) {
     return Concat.of({
         $id: "(...)",
         _lp: "(",
         block: new Sexp(stateMachineFactory, "sexp", m),
         _rp: ")",
+    });
+}
+
+export function keyword(stateMachineFactory: () => LangStateMachine = () => new ClojureStateMachine()) {
+    return Concat.of({
+        $id: ":... ",
+        _lp: ":",
+        block: new Sexp(stateMachineFactory, "keyword"),
+        _rp: " ",
+    });
+}
+
+export function vector(stateMachineFactory: () => LangStateMachine = () => new ClojureStateMachine()) {
+    return Concat.of({
+        $id: "[...]",
+        _lp: "[",
+        block: new Sexp(stateMachineFactory, "vector"),
+        _rp: "]",
+    });
+}
+
+export function vectorContaining(m: Concat,
+    stateMachineFactory: () => LangStateMachine = () => new ClojureStateMachine()) {
+    return Concat.of({
+        $id: "[...]",
+        _lp: "[",
+        block: new Sexp(stateMachineFactory, "vector", m),
+        _rp: "]",
     });
 }

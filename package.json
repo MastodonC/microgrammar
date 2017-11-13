@@ -18,6 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@atomist/automation-client": "^0.2.8",
     "@types/chai": "^3.5.0",
     "@types/mocha": "^2.2.43",
     "@types/power-assert": "^1.4.29",
